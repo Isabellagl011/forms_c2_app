@@ -33,9 +33,9 @@ export const Userin = ({
     if (Object.keys(intelligenceObj).length > 0) {
       console.log("Entre al useEffect de inteligencias");
       setId(intelligenceObj.id);
-      setautorName(intelligenceObj.userName);
-      setinteliName(intelligenceObj.userEmail);
-      setInteliCharacteristic(intelligenceObj.cellphone);
+      setautorName(intelligenceObj.autorName);
+      setinteliName(intelligenceObj.inteliName);
+      setInteliCharacteristic(intelligenceObj.InteliCharacteristic);
       setDate(intelligenceObj.date);
     }
   }, [intelligenceObj.date]);
@@ -48,7 +48,6 @@ export const Userin = ({
 
     /**Información de la inteligencia */
     const newIntelligence = {
-      
       autorName,
       inteliName,
       InteliCharacteristic,
