@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -13,76 +13,71 @@ import {
 } from "react-native";
 import DatePicker from "react-native-date-picker";
 
-export const UserForm = ({
-  modalUserForm,
-  setModalUserForm,
-  registeredUsers,
-  setRegisteredUsers,
-  user: userObj
+export const Userin = ({
+  modalVisibleIn,
+  setModalVisibleIn,
+  registeredInteligences,
+  setRegisteredInteligences,
+  intelligence: intelligenceObj,
 }) => {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   const [id, setId] = useState("");
-  const [userName, setUsername] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [cellphone, setCellphone] = useState("");
-  const [comments, setComments] = useState("");
+  const [autorName, setautorName] = useState("");
+  const [inteliName, setinteliName] = useState("");
+  const [InteliCharacteristic, setInteliCharacteristic] = useState("");
 
   useEffect(() => {
-   
-    console.log("info del objeto user" + userObj.id);
+    console.log("info de la inteligencia ingresada" + intelligenceObj.id);
 
-    if (Object.keys(userObj).length > 0) {
-       console.log("Entre al useEffect");
-      setId(userObj.id);
-      setUsername(userObj.userName);
-      setUserEmail(userObj.userEmail);
-      setCellphone(userObj.cellphone);
-      setComments(userObj.comments);
-      setDate(userObj.date);
+    if (Object.keys(intelligenceObj).length > 0) {
+      console.log("Entre al useEffect de inteligencias");
+      setId(intelligenceObj.id);
+      setautorName(intelligenceObj.userName);
+      setinteliName(intelligenceObj.userEmail);
+      setInteliCharacteristic(intelligenceObj.cellphone);
+      setDate(intelligenceObj.date);
     }
-  }, [userObj.date]);
-  const handleUser = () => {
-    console.log("presionaste agregar usuario UAM");
-    if ([userName, userEmail, cellphone, comments, date].includes("")) {
-      Alert.alert("Error", "Hay campos sin diligenciar");
+  }, [intelligenceObj.date]);
+  const handleIntelligence = () => {
+    console.log("presionaste agregar una Inteligencia UAM");
+    if ([autorName, inteliName, InteliCharacteristic, date].includes("")) {
+      Alert.alert("Error", "No podemos adicionar la inteligencia");
       return;
     }
 
-    /**Información del usuario */
-    const newUser = {
-      /**Creamos un id ficticio a partir de la fecha de nacimiento */
-      userName,
-      userEmail,
-      cellphone,
+    /**Información de la inteligencia */
+    const newIntelligence = {
+      
+      autorName,
+      inteliName,
+      InteliCharacteristic,
       date,
-      comments,
     };
     if (id) {
       //editar
-      newUser.id = id;
-      console.log("Editando el usuario", newUser);
+      newIntelligence.id = id;
+      console.log("Editando la inteligencia ingresada", newIntelligence);
       return;
     } else {
       //nuevo registro
-      newUser.id = Date.now();
-      setRegisteredUsers([...registeredUsers, newUser]);
+      newIntelligence.id = Date.now();
+      setRegisteredInteligences([...registeredInteligences, newIntelligence]);
     }
-    /**Copia del array de registro de usuarios */
-    setRegisteredUsers([...registeredUsers, newUser]);
-    setModalUserForm(!modalUserForm);
+    /**Copia del array de registro de las inteligencias UAM */
+    setRegisteredInteligences([...registeredInteligences, newIntelligence]);
+    setModalVisibleIn(!modalVisibleIn);
     /**Limpieza de campos para borrar desde el ultimo registro*/
-    setUsername("");
-    setUserEmail("");
-    setCellphone("");
+    setautorName("");
+    setInteliCharacteristic("");
+    setinteliName("");
     setDate(new Date());
-    setComments("");
   };
 
   return (
-    <Modal animationType='slide' visible={modalUserForm}>
+    <Modal animationType='slide' visible={modalVisibleIn}>
       <ImageBackground
-        source={require("../assets/jpg/dev2.jpg")}
+        source={require("../assets/png/inteligencias.png")}
         resizeMode='cover'
         style={styles.backCover}>
         <Image
@@ -91,45 +86,44 @@ export const UserForm = ({
         />
 
         <ScrollView>
-          <Text style={styles.title}>
-            Inscripción {""}
-            <Text style={styles.titleBold}>Vacaciones UAM</Text>
-          </Text>
-
           <Pressable
             style={styles.btnExit}
-            onPress={() => setModalUserForm(false)}>
+            onPress={() => setModalVisibleIn(false)}>
             <Text style={styles.btnTextExit}> X Cerrar</Text>
           </Pressable>
 
+          <Text style={styles.title}>
+            Inscripción {""}
+            <Text style={styles.titleBold}>
+              Identificación de inteligencias
+            </Text>
+          </Text>
+
           <View style={styles.campo}>
             <TextInput
-              placeholder='Nombre Completo'
+              placeholder='Nombre del autor'
               placeholderTextColor={"#F8F9F9"}
               style={styles.input}
-              value={userName}
-              onChangeText={setUsername}></TextInput>
+              value={autorName}
+              onChangeText={setautorName}></TextInput>
           </View>
 
           <View style={styles.campo}>
             <TextInput
-              placeholder='@autonoma.edu.co'
+              placeholder='Nombre de la nueva inteligencia'
               placeholderTextColor={"#F8F9F9"}
               style={styles.input}
-              keyboardType='email-address'
-              value={userEmail}
-              onChangeText={setUserEmail}></TextInput>
+              value={inteliName}
+              onChangeText={setinteliName}></TextInput>
           </View>
 
           <View style={styles.campo}>
             <TextInput
-              placeholder='Celular'
+              placeholder='Caracteristicas de la inteligencia'
               placeholderTextColor={"#F8F9F9"}
               style={styles.input}
-              keyboardType='phone-pad'
-              value={cellphone}
-              onChangeText={setCellphone}
-              maxLength={10}></TextInput>
+              value={InteliCharacteristic}
+              onChangeText={setInteliCharacteristic}></TextInput>
           </View>
 
           <View style={styles.campo}>
@@ -139,19 +133,11 @@ export const UserForm = ({
               onDateChange={(date) => setDate(date)}></DatePicker>
           </View>
 
-          <View style={styles.campo}>
-            <TextInput
-              placeholder='Dejanos tus comentarios'
-              placeholderTextColor={"#F8F9F9"}
-              style={[styles.input, styles.inputComments]}
-              numberOfLines={6}
-              multiline={true}
-              value={comments}
-              onChangeText={setComments}></TextInput>
-          </View>
-          <Pressable style={styles.btnNewUser}>
-            <Text style={styles.btnTextNewUser} onPress={handleUser}>
-              Agregar
+          <Pressable style={styles.btnNewIntelligence}>
+            <Text
+              style={styles.btnTextIntelligence}
+              onPress={handleIntelligence}>
+              Registrar Inteligencia
             </Text>
           </Pressable>
         </ScrollView>
@@ -240,7 +226,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     borderRadius: 10,
   },
+  btnNewIntelligence: {
+    marginVertical: 50,
+    backgroundColor: "#0069a3",
+    paddingVertical: 15,
+    marginHorizontal: 30,
+    borderRadius: 10,
+  },
   btnTextNewUser: {
+    textAlign: "center",
+    color: "#FFF",
+    textTransform: "uppercase",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  btnTextIntelligence: {
     textAlign: "center",
     color: "#FFF",
     textTransform: "uppercase",

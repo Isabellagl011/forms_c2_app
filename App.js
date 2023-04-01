@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { UserForm } from "./src/components/UserForm";
+import { Userin } from "./src/components/Userin";
 import {
   FlatList,
   Modal,
@@ -10,22 +11,43 @@ import {
   View,
 } from "react-native";
 import { User } from "./src/components/User";
+import { Uintelligence } from "./src/components/Uintelligence";
 
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalUserForm, setModalUserForm] = useState(false);
+  const [modalVisibleIn, setModalVisibleIn] = useState(false);
 
   /** Array para listar los usuarios */
   const [registeredUsers, setRegisteredUsers] = useState([]);
+  /**Array para listar las iteligencias registradas */
+  const [registeredInteligences, setRegisteredInteligences] = useState([]);
+  const [user, setUser] = useState({});
+  const [intelligence, setIntelligences] = useState({});
 
+  const editUser = (id) => {
+    const editUser = registeredUsers.filter((user) => user.id === id);
+    console.log("El array estudiante que el filter obtiene es:", editUser);
+    setUser(editUser[0]);
+    console.log(editUser);
+  };
+
+  const editIntelligence = (id) => {
+    const editIntelligence = registeredInteligences.filter(
+      (intelligence) => intelligence.id === id
+    );
+    console.log("la inteligencia que se está editando es:", editIntelligence);
+    setIntelligences(editIntelligence[0]);
+    console.log(editIntelligence);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>
-        Registrate en la {""}
+        Regista una inteligencia en la {""}
         <Text style={styles.titleBold}>UAM</Text>
       </Text>
 
-      <Pressable
+      {/* <Pressable
         onPress={() => {
           setModalVisible(true);
         }}
@@ -39,17 +61,24 @@ export default function App() {
         }}
         style={styles.btnNewUser}>
         <Text style={styles.titleButton}>Nuevo Usuario</Text>
-      </Pressable>
+      </Pressable>*/}
 
       {registeredUsers.length === 0 ? (
         <Text style={styles.textNoUser}>No hay usuarios registrados</Text>
       ) : (
         <FlatList
+          style={styles.userList}
           data={registeredUsers}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
-            console.log(item);
-            return <User item={item} />;
+            /*console.log(item);*/
+            return (
+              <User
+                item={item}
+                setModalUserForm={setModalUserForm}
+                editUser={editUser}
+              />
+            );
           }}
         />
       )}
@@ -57,7 +86,44 @@ export default function App() {
         modalUserForm={modalUserForm}
         setModalUserForm={setModalUserForm}
         registeredUsers={registeredUsers}
-        setRegisteredUsers={setRegisteredUsers}></UserForm>
+        setRegisteredUsers={setRegisteredUsers}
+        user={user}></UserForm>
+
+      <Pressable
+        onPress={() => {
+          setModalVisibleIn(true);
+        }}
+        style={styles.btnNewUser}>
+        <Text style={styles.titleButton}>Registro Inteligencia</Text>
+      </Pressable>
+
+      {registeredInteligences.length === 0 ? (
+        <Text style={styles.textNoUser}>
+          No hay inteligencias nuevas registrados
+        </Text>
+      ) : (
+        <FlatList
+          style={styles.userList}
+          data={registeredInteligences}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            return (
+              <Uintelligence
+                item={item}
+                setModalVisibleIn={setModalVisibleIn}
+                editIntelligence={editIntelligence}
+              />
+            );
+          }}
+        />
+      )}
+
+      <Userin
+        modalVisibleIn={modalVisibleIn}
+        setModalVisibleIn={setModalVisibleIn}
+        registeredInteligences={registeredInteligences}
+        setRegisteredInteligences={setRegisteredInteligences}
+        intelligence={intelligence}></Userin>
 
       <Modal animationType='slide' visible={modalVisible}>
         <Text>Desde Modal</Text>
@@ -91,5 +157,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     color: "#000000",
+  },
+  userList: {
+    marginTop: 50,
+    marginHorizontal: 30,
   },
 });

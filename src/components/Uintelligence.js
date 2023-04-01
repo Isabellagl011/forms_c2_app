@@ -1,8 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
-
-export const User = ({ item, setModalUserForm, editUser }) => {
-  const { userName, date, id } = item;
+export const Uintelligence = ({
+  item,
+  setModalVisibleIn,
+  editIntelligence,
+}) => {
+  const { autorName, inteliName, date, id } = item;
   const dateFormate = (date) => {
     const newDate = new Date(date);
     const optionsFormate = {
@@ -17,22 +20,24 @@ export const User = ({ item, setModalUserForm, editUser }) => {
   return (
     <ScrollView>
       <View style={styles.content}>
-        <Text style={styles.label}>Estudiante:</Text>
-        <Text style={styles.text}>{userName}</Text>
+        <Text style={styles.label}>Autor:</Text>
+        <Text style={styles.text}>{autorName}</Text>
+        <Text style={styles.label}>Nombre de la inteligencia:</Text>
+        <Text style={styles.text}>{inteliName}</Text>
         <Text style={styles.date_formate}>{dateFormate(date)}</Text>
         <View styles={styles.buttons}>
           <Pressable
             style={[styles.btn, styles.btnEdit]}
             onPress={() => {
-              setModalUserForm(true);
-              editUser(id);
+              setModalVisibleIn(true);
+              editIntelligence(id);
             }}>
             <Text style={styles.btnText}>Editar</Text>
           </Pressable>
           <Pressable
             style={[styles.btn, styles.btnDeleteOne]}
             onPress={() => {
-              setModalUserForm(true);
+              setModalVisibleIn(true);
             }}>
             <Text style={styles.btnText}>Eliminar</Text>
           </Pressable>
