@@ -24,11 +24,19 @@ export default function App() {
   const [registeredInteligences, setRegisteredInteligences] = useState([]);
   const [user, setUser] = useState({});
   const [intelligence, setIntelligences] = useState({});
+  const [dataArray, setdataArray] = useState([]);
 
   const editUser = (id) => {
     const editUser = registeredUsers.filter((user) => user.id === id);
     console.log("El array estudiante que el filter obtiene es:", editUser);
     setUser(editUser[0]);
+    console.log(editUser);
+  };
+
+  const deleteUser = (id) => {
+    console.log("usuario", id);
+    const editUser = registeredUsers.filter((user) => user.id !== id);
+    setRegisteredUsers(editUser);
     console.log(editUser);
   };
 
@@ -43,25 +51,23 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>
-        Regista una inteligencia en la {""}
+        Regista en la {""}
         <Text style={styles.titleBold}>UAM</Text>
       </Text>
-
-      {/* <Pressable
+      <Pressable
         onPress={() => {
           setModalVisible(true);
         }}
         style={styles.btnNewUser}>
         <Text style={styles.titleButton}>Nuevo usuario</Text>
       </Pressable>
-
       <Pressable
         onPress={() => {
           setModalUserForm(true);
         }}
         style={styles.btnNewUser}>
         <Text style={styles.titleButton}>Nuevo Usuario</Text>
-      </Pressable>*/}
+      </Pressable>
 
       {registeredUsers.length === 0 ? (
         <Text style={styles.textNoUser}>No hay usuarios registrados</Text>
@@ -77,6 +83,7 @@ export default function App() {
                 item={item}
                 setModalUserForm={setModalUserForm}
                 editUser={editUser}
+                deleteUser={deleteUser}
               />
             );
           }}
@@ -87,7 +94,8 @@ export default function App() {
         setModalUserForm={setModalUserForm}
         registeredUsers={registeredUsers}
         setRegisteredUsers={setRegisteredUsers}
-        user={user}></UserForm>
+        user={user}
+        setUser={setUser}></UserForm>
 
       <Pressable
         onPress={() => {
@@ -96,7 +104,6 @@ export default function App() {
         style={styles.btnNewUser}>
         <Text style={styles.titleButton}>Registro Inteligencia</Text>
       </Pressable>
-
       {registeredInteligences.length === 0 ? (
         <Text style={styles.textNoUser}>
           No hay inteligencias nuevas registrados
@@ -117,13 +124,13 @@ export default function App() {
           }}
         />
       )}
-
       <Userin
         modalVisibleIn={modalVisibleIn}
         setModalVisibleIn={setModalVisibleIn}
         registeredInteligences={registeredInteligences}
         setRegisteredInteligences={setRegisteredInteligences}
-        intelligence={intelligence}></Userin>
+        intelligence={intelligence}
+        setIntelligences={setIntelligences}></Userin>
 
       <Modal animationType='slide' visible={modalVisible}>
         <Text>Desde Modal</Text>

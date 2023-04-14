@@ -4,6 +4,7 @@ export const Uintelligence = ({
   item,
   setModalVisibleIn,
   editIntelligence,
+  deleteIntelligence,
 }) => {
   const { autorName, inteliName, date, id } = item;
   const dateFormate = (date) => {
@@ -38,6 +39,7 @@ export const Uintelligence = ({
             style={[styles.btn, styles.btnDeleteOne]}
             onPress={() => {
               setModalVisibleIn(true);
+              
             }}>
             <Text style={styles.btnText}>Eliminar</Text>
           </Pressable>

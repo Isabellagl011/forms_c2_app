@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 
-export const User = ({ item, setModalUserForm, editUser }) => {
+export const User = ({ item, setModalUserForm, editUser, deleteUser }) => {
   const { userName, date, id } = item;
   const dateFormate = (date) => {
     const newDate = new Date(date);
@@ -33,6 +33,7 @@ export const User = ({ item, setModalUserForm, editUser }) => {
             style={[styles.btn, styles.btnDeleteOne]}
             onPress={() => {
               setModalUserForm(true);
+              deleteUser(id);
             }}>
             <Text style={styles.btnText}>Eliminar</Text>
           </Pressable>

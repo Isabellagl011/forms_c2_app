@@ -18,7 +18,8 @@ export const UserForm = ({
   setModalUserForm,
   registeredUsers,
   setRegisteredUsers,
-  user: userObj
+  user: userObj,
+  setUser,
 }) => {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -29,11 +30,10 @@ export const UserForm = ({
   const [comments, setComments] = useState("");
 
   useEffect(() => {
-   
     console.log("info del objeto user" + userObj.id);
 
     if (Object.keys(userObj).length > 0) {
-       console.log("Entre al useEffect");
+      console.log("Entre al useEffect");
       setId(userObj.id);
       setUsername(userObj.userName);
       setUserEmail(userObj.userEmail);
@@ -61,15 +61,20 @@ export const UserForm = ({
     if (id) {
       //editar
       newUser.id = id;
+      const usersEdited = registeredUsers.map((userState) =>
+        userState.id === newUser.id ? newUser : userState
+      );
       console.log("Editando el usuario", newUser);
-      return;
+      setRegisteredUsers(usersEdited);
+      console.log(usersEdited);
+      setUser({});
     } else {
       //nuevo registro
       newUser.id = Date.now();
       setRegisteredUsers([...registeredUsers, newUser]);
     }
     /**Copia del array de registro de usuarios */
-    setRegisteredUsers([...registeredUsers, newUser]);
+
     setModalUserForm(!modalUserForm);
     /**Limpieza de campos para borrar desde el ultimo registro*/
     setUsername("");
@@ -98,7 +103,16 @@ export const UserForm = ({
 
           <Pressable
             style={styles.btnExit}
-            onPress={() => setModalUserForm(false)}>
+            onPress={() => {
+              setModalUserForm(!modalUserForm);
+              setUser({});
+              setId("");
+              setUsername("");
+              setUserEmail("");
+              setCellphone("");
+              setDate(new Date());
+              setComments("");
+            }}>
             <Text style={styles.btnTextExit}> X Cerrar</Text>
           </Pressable>
 

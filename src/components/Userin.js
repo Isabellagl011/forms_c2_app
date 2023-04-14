@@ -19,6 +19,7 @@ export const Userin = ({
   registeredInteligences,
   setRegisteredInteligences,
   intelligence: intelligenceObj,
+  setIntelligence,
 }) => {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -56,15 +57,22 @@ export const Userin = ({
     if (id) {
       //editar
       newIntelligence.id = id;
+      const intelligenceEdited = registeredInteligences.map(
+        (inteligenceState) =>
+          inteligenceState.id === newIntelligence.id
+            ? newIntelligence
+            : inteligenceState
+      );
       console.log("Editando la inteligencia ingresada", newIntelligence);
-      return;
+      setRegisteredInteligences(intelligenceEdited);
+      console.log(intelligenceEdited);
+      setIntelligence({});
     } else {
       //nuevo registro
       newIntelligence.id = Date.now();
       setRegisteredInteligences([...registeredInteligences, newIntelligence]);
     }
     /**Copia del array de registro de las inteligencias UAM */
-    setRegisteredInteligences([...registeredInteligences, newIntelligence]);
     setModalVisibleIn(!modalVisibleIn);
     /**Limpieza de campos para borrar desde el ultimo registro*/
     setautorName("");
@@ -87,7 +95,15 @@ export const Userin = ({
         <ScrollView>
           <Pressable
             style={styles.btnExit}
-            onPress={() => setModalVisibleIn(false)}>
+            onPress={() => {
+              setModalVisibleIn(!modalVisibleIn);
+              setIntelligence({});
+              setId("");
+              setautorName("");
+              setinteliName("");
+              setInteliCharacteristic("");
+              setDate(new Date());
+            }}>
             <Text style={styles.btnTextExit}> X Cerrar</Text>
           </Pressable>
 
